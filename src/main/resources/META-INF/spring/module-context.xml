@@ -12,13 +12,15 @@
 	<!--  enables classpath component scanning for this module -->
 	
     <c:property-placeholder location="classpath:db.properties" />
-        
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${jdbc.driver}"/>
+         
+    <bean id="jdbcdriver" class="com.mysql.jdbc.Driver" />
+         
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driver" ref="jdbcdriver" />
         <property name="url" value="${jdbc.url}${jdbc.dbname}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-    </bean>  
-    
-    <osgi:service ref="dataSource" interface="javax.sql.DataSource"/>     
+    </bean>      
+        
+    <osgi:service id="serviceDataSource" ref="dataSource" interface="javax.sql.DataSource"/>     
 </beans>
